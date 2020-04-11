@@ -11,12 +11,12 @@ export class App extends React.Component {
     this.state = {
       searchResults: [
         { id: 0, name: "", artist: "", album: "" },
-        { id: 0, name: "", artist: "", album: "" },
+        { id: 1, name: "", artist: "", album: "" },
       ],
       playlistName: "",
       playlistTracks: [
         { id: 0, name: "", artist: "", album: "" },
-        { id: 0, name: "", artist: "", album: "" },
+        { id: 1, name: "", artist: "", album: "" },
       ],
     };
 
@@ -33,6 +33,9 @@ export class App extends React.Component {
     }
 
     this.state.playlistTracks.push(track);
+
+    this.savePlaylist = this.savePlaylist.bind(this);
+    this.search = this.search.bind(this);
   }
 
   removeTrack(track) {
@@ -40,22 +43,28 @@ export class App extends React.Component {
   }
 
   updatePlaylistName(name) {
-    this.state.playlistName = name;
+    this.setState({
+      playlistName: name,
+    });
   }
 
   savePlaylist() {
-    const trackURIs 
+    const trackURIs = this.state.playlistTracks;
+  }
+
+  search(term) {
+    console.log(term);
   }
 
   render() {
     return (
       <div>
         <h1>
-          Ja<span class="highlight">mmm</span>ing
+          Ja<span className="highlight">mmm</span>ing
         </h1>
-        <div class="App">
-          <SearchBar />
-          <div class="App-playlist">
+        <div className="App">
+          <SearchBar onSearch={this.search} />
+          <div className="App-playlist">
             <SearchResults
               onAdd={this.addTrack}
               searchResults={this.state.searchResults}
@@ -63,6 +72,7 @@ export class App extends React.Component {
             <Playlist
               onRemove={this.removeTrack}
               onNameChange={this.updatePlaylistName}
+              onSave={this.savePlaylist}
               playlistName={this.state.playlistName}
               playlistTracks={this.state.playlistTracks}
             />
